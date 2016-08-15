@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+<div>
+  <h1 class='title-block'>Supports Requests</h1>
+</div>
+<div class="col-sm-3 col-md-3 search-bar">
+    <%= form_tag supports_path, method: 'get', class: 'navbar-form navbar-left', role: 'search' do %>
+      <div class='input-group'>
+        <%= text_field_tag :query, params[:query], size: 150, placeholder: "Search", class: "form-control"%>
+        <div class='input-group-btn'>
+          <%= button_tag(type: 'submit', class: 'btn btn-default') do %>
+            <i class='glyphicon glyphicon-search'></i>
+            <%end%>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+<table class='table-striped table' style='margin-top: 1 em;'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Department</th>
+      <th>Message</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @supports.each do |support| %>
+      <% @flop_id = support.id%>
+      <tr>
+        <td><%= support.name %></td>
+        <td><%= support.email %></td>
+        <td><%= support.department %></td>
+        <td><%= truncate(support.message, length: @charlim, omission: '...') %></td>
+        <td><%= link_to 'Edit', edit_support_path(support) %></td>
+        <td><%= link_to 'Destroy', support, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <%= link_to(support.complete ? "Completed" : "Not Completed", support_flop_path(support))%>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<center>
+  <%= paginate @supports %>
+</center>
